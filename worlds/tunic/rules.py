@@ -69,9 +69,9 @@ def has_ice_grapple_logic(long_range: bool, state: CollectionState, world: "Tuni
     if not world.options.logic_rules:
         return False
     if not long_range:
-        return state.has_all({ice_dagger, grapple}, player)
+        return state.has_all((ice_dagger, grapple), player)
     else:
-        return state.has_all({ice_dagger, fire_wand, grapple}, player) and has_ability(icebolt, state, world)
+        return state.has_all((ice_dagger, fire_wand, grapple), player) and has_ability(icebolt, state, world)
 
 
 def can_ladder_storage(state: CollectionState, world: "TunicWorld") -> bool:
@@ -113,10 +113,10 @@ def set_region_rules(world: "TunicWorld") -> None:
     world.get_entrance("Overworld -> Beneath the Vault").access_rule = \
         lambda state: has_lantern(state, world) and has_ability(prayer, state, world)
     world.get_entrance("Ruined Atoll -> Library").access_rule = \
-        lambda state: state.has_any({grapple, laurels}, player) and has_ability(prayer, state, world)
+        lambda state: state.has_any((grapple, laurels), player) and has_ability(prayer, state, world)
     world.get_entrance("Overworld -> Quarry").access_rule = \
         lambda state: (has_sword(state, player) or state.has(fire_wand, player)) \
-        and (state.has_any({grapple, laurels, gun}, player) or can_ladder_storage(state, world))
+        and (state.has_any((grapple, laurels, gun), player) or can_ladder_storage(state, world))
     world.get_entrance("Quarry Back -> Quarry").access_rule = \
         lambda state: has_sword(state, player) or state.has(fire_wand, player)
     world.get_entrance("Quarry -> Lower Quarry").access_rule = \
@@ -128,10 +128,10 @@ def set_region_rules(world: "TunicWorld") -> None:
         or has_ice_grapple_logic(False, state, world)
     world.get_entrance("Overworld -> Spirit Arena").access_rule = \
         lambda state: ((state.has(gold_hexagon, player, options.hexagon_goal.value) if options.hexagon_quest.value
-                       else state.has_all({red_hexagon, green_hexagon, blue_hexagon}, player)
+                       else state.has_all((red_hexagon, green_hexagon, blue_hexagon), player)
                        and state.has_group_unique("Hero Relics", player, 6))
                        and has_ability(prayer, state, world) and has_sword(state, player)
-                       and state.has_any({lantern, laurels}, player))
+                       and state.has_any((lantern, laurels), player))
 
 
 def set_location_rules(world: "TunicWorld") -> None:
@@ -177,9 +177,9 @@ def set_location_rules(world: "TunicWorld") -> None:
     set_rule(world.get_location("Overworld - [Southwest] Fountain Page"),
              lambda state: state.has(laurels, player))
     set_rule(world.get_location("Overworld - [Southwest] Grapple Chest Over Walkway"),
-             lambda state: state.has_any({grapple, laurels}, player))
+             lambda state: state.has_any((grapple, laurels), player))
     set_rule(world.get_location("Overworld - [Southwest] West Beach Guarded By Turret 2"),
-             lambda state: state.has_any({grapple, laurels}, player))
+             lambda state: state.has_any((grapple, laurels), player))
     set_rule(world.get_location("Far Shore - Secret Chest"),
              lambda state: state.has(laurels, player) and has_ability(prayer, state, world))
     set_rule(world.get_location("Overworld - [Southeast] Page on Pillar by Swamp"),
@@ -206,7 +206,7 @@ def set_location_rules(world: "TunicWorld") -> None:
              or (has_lantern(state, world) and has_sword(state, player))
              or can_ladder_storage(state, world))
     set_rule(world.get_location("Overworld - [Northwest] Chest Beneath Quarry Gate"),
-             lambda state: state.has_any({grapple, laurels}, player) or options.logic_rules)
+             lambda state: state.has_any((grapple, laurels), player) or options.logic_rules)
     set_rule(world.get_location("Overworld - [East] Grapple Chest"),
              lambda state: state.has(grapple, player))
     set_rule(world.get_location("Special Shop - Secret Page Pickup"),
@@ -221,7 +221,7 @@ def set_location_rules(world: "TunicWorld") -> None:
              or (has_lantern(state, world) and (has_sword(state, player) or state.has(fire_wand, player)))
              or has_ice_grapple_logic(False, state, world))
     set_rule(world.get_location("West Furnace - Lantern Pickup"),
-             lambda state: has_stick(state, player) or state.has_any({fire_wand, laurels}, player))
+             lambda state: has_stick(state, player) or state.has_any((fire_wand, laurels), player))
 
     set_rule(world.get_location("Secret Gathering Place - 10 Fairy Reward"),
              lambda state: state.has(fairies, player, 10))
@@ -240,9 +240,9 @@ def set_location_rules(world: "TunicWorld") -> None:
     set_rule(world.get_location("East Forest - Lower Grapple Chest"),
              lambda state: state.has(grapple, player))
     set_rule(world.get_location("East Forest - Lower Dash Chest"),
-             lambda state: state.has_all({grapple, laurels}, player))
+             lambda state: state.has_all((grapple, laurels), player))
     set_rule(world.get_location("East Forest - Ice Rod Grapple Chest"),
-             lambda state: state.has_all({grapple, ice_dagger, fire_wand}, player)
+             lambda state: state.has_all((grapple, ice_dagger, fire_wand), player)
              and has_ability(icebolt, state, world))
 
     # West Garden
@@ -274,11 +274,11 @@ def set_location_rules(world: "TunicWorld") -> None:
 
     # Frog's Domain
     set_rule(world.get_location("Frog's Domain - Side Room Grapple Secret"),
-             lambda state: state.has_any({grapple, laurels}, player))
+             lambda state: state.has_any((grapple, laurels), player))
     set_rule(world.get_location("Frog's Domain - Grapple Above Hot Tub"),
-             lambda state: state.has_any({grapple, laurels}, player))
+             lambda state: state.has_any((grapple, laurels), player))
     set_rule(world.get_location("Frog's Domain - Escape Chest"),
-             lambda state: state.has_any({grapple, laurels}, player))
+             lambda state: state.has_any((grapple, laurels), player))
 
     # Eastern Vault Fortress
     set_rule(world.get_location("Fortress Leaf Piles - Secret Chest"),
@@ -292,7 +292,7 @@ def set_location_rules(world: "TunicWorld") -> None:
 
     # Beneath the Vault
     set_rule(world.get_location("Beneath the Fortress - Bridge"),
-             lambda state: has_stick(state, player) or state.has_any({laurels, fire_wand}, player))
+             lambda state: has_stick(state, player) or state.has_any((laurels, fire_wand), player))
     set_rule(world.get_location("Beneath the Fortress - Obscured Behind Waterfall"),
              lambda state: has_stick(state, player) and has_lantern(state, world))
 
@@ -300,7 +300,7 @@ def set_location_rules(world: "TunicWorld") -> None:
     set_rule(world.get_location("Quarry - [Central] Above Ladder Dash Chest"),
              lambda state: state.has(laurels, player))
     set_rule(world.get_location("Rooted Ziggurat Upper - Near Bridge Switch"),
-             lambda state: has_sword(state, player) or state.has_all({fire_wand, laurels}, player))
+             lambda state: has_sword(state, player) or state.has_all((fire_wand, laurels), player))
     # nmg - kill boss scav with orb + firecracker, or similar
     set_rule(world.get_location("Rooted Ziggurat Lower - Hexagon Blue"),
              lambda state: has_sword(state, player) or (state.has(grapple, player) and options.logic_rules))
